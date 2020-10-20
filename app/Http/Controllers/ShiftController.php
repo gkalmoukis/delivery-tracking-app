@@ -16,9 +16,69 @@ class ShiftController extends Controller
      */
     public function index()
     {
-        $userShifts = auth()->user()->shifts;
+
+        $userId = auth()->user()->id;
+
+        $activeShifts = Shift::where([
+            ['user_id', '=', $userId],
+            ['ended_at', '=', null]
+        ])->get();
+
         return view('user.shifts.index', [
-            "shifts" => $userShifts
+            "shifts" => $activeShifts
+        ]);
+    }
+
+    /**
+     * Display a listing of the resource.
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function indexAdmin()
+    {
+        $activeShifts = Shift::where([
+            ['ended_at', '=', null]
+        ])->get();
+
+        return view('admin.index-active', [
+            "shifts" => $activeShifts
+        ]);
+    }
+
+    /**
+     * Display a listing of the resource.
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function indexPast()
+    {
+        $userId = auth()->user()->id;
+
+        $pastShifts = Shift::where([
+            ['user_id', '=', $userId],
+            ['ended_at', '!=', null]
+        ])->get();
+
+        return view('user.shifts.index-past', [
+            "shifts" => $pastShifts
+        ]);
+    }
+
+    /**
+     * Display a listing of the resource.
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function indexAdminPast()
+    {
+
+
+        $pastShifts = Shift::where([
+            ['ended_at', '!=', null]
+        ])->get();
+
+        return view('admin.index-past', [
+            "shifts" => $pastShifts
         ]);
     }
 
@@ -29,6 +89,16 @@ class ShiftController extends Controller
      */
     public function create()
     {
+        $userId = auth()->user()->id;
+        $hasActiveShift = Shift::where([
+            ['user_id', '=', $userId],
+            ['ended_at', '=', null]
+        ])->get();
+
+        if (!$hasActiveShift->isEmpty()) {
+            return redirect('/')->withErrors(["message" => __('You have one open shift. Please close!')]);
+        }
+
         $allSupermarkets = Supermarket::all();
         return view('user.shifts.create', [
             "supermarkets" => $allSupermarkets
@@ -60,18 +130,21 @@ class ShiftController extends Controller
         ]);
 
         //
-        return back()->with('success', 'Your form has been submitted.');
+        return view('home')->with('success', 'Your form has been submitted.');
     }
 
-    /**
+    /**'user
      * Display the specified resource.
      *
      * @param  \App\Models\Shift  $shift
      * @return \Illuminate\Http\Response
      */
-    public function show(Shift $shift)
+    public function show(Request $request, Shift $shift)
     {
-        //
+        $shift = Shift::findOrFail($request->id);
+        return view('user.shifts.show', [
+            "shift" => $shift
+        ]);
     }
 
     /**

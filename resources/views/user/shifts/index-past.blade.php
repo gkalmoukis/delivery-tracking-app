@@ -31,13 +31,8 @@
                                 <td>
 
 
-                                    <a href="/deliveries/new/{{$shift->id}}"
-                                        class="btn btn-primary pl-2">{{__('Add delivery item')}}</a>
 
-                                    <a href="/deliveries/{{$shift->id}}"
-                                        class="btn btn-primary pl-2">{{__('Status')}}</a>
-
-                                    <a href="/shifts/{{$shift->id}}/end" class="btn btn-danger">{{__('End Shift')}}</a>
+                                    <a href="/shifts/{{$shift->id}}" class="btn btn-primary pl-2">{{__('Details')}}</a>
 
                                 </td>
                             </tr>

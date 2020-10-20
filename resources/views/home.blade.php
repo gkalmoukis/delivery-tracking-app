@@ -9,7 +9,10 @@
                 <div class="card-header">{{ __('Admin Dashboard') }}</div>
 
                 <div class="card-body">
-                    <a href="/admins/deliveries" class="btn btn-secondary btn-lg btn-block">{{__('All deliveries')}}</a>
+                    <a href="/admins/active-shifts"
+                        class="btn btn-secondary btn-lg btn-block">{{__('Active shifts')}}</a>
+
+                    <a href="/admins/past-shifts" class="btn btn-secondary btn-lg btn-block">{{__('Past shifts')}}</a>
 
 
                 </div>
@@ -24,11 +27,25 @@
 
                 <div class="card-body">
 
-                    <a href="{{ route('shifts-index') }}"
-                        class="btn btn-secondary btn-lg btn-block">{{__('All Shifts')}}</a>
+                    @if($errors->any())
+                    @foreach ($errors->all() as $error)
+                    <div class="alert alert-danger p-1" role="alert">
+                        {{$error}}
+                    </div>
+                    @endforeach
+                    @endif
+
 
                     <a href="{{ route('new-shift-form') }}"
                         class="btn btn-primary btn-lg btn-block">{{__('New Shift')}}</a>
+
+                    <a href="{{ route('shifts-index') }}"
+                        class="btn btn-secondary btn-lg btn-block">{{__('Active shift')}}</a>
+
+                    <a href="{{ route('past-index') }}"
+                        class="btn btn-primary btn-lg btn-block">{{__('Past shifts')}}</a>
+
+
 
 
                 </div>

@@ -16,10 +16,12 @@ use Illuminate\Support\Facades\Route;
 
 Route::group(['prefix' => 'shifts'], function () {
     Route::get('/',  [App\Http\Controllers\ShiftController::class, 'index'])->name('shifts-index');
+    Route::get('/past',  [App\Http\Controllers\ShiftController::class, 'indexPast'])->name('past-index');
     Route::get('/new',  [App\Http\Controllers\ShiftController::class, 'create'])->name('new-shift-form');
     Route::post('/new-swift',  [App\Http\Controllers\ShiftController::class, 'store'])->name('new-shift');
     Route::get('/{id}/end',  [App\Http\Controllers\ShiftController::class, 'editEnd']);
     Route::post('/end',  [App\Http\Controllers\ShiftController::class, 'updateEnd']);
+    Route::get('/{id}',  [App\Http\Controllers\ShiftController::class, 'show']);
 });
 
 Route::group(['prefix' => 'deliveries'], function () {
@@ -30,8 +32,14 @@ Route::group(['prefix' => 'deliveries'], function () {
     Route::get('/update-started-at/{id}',  [App\Http\Controllers\DeliveryController::class, 'updateStartedAt']);
 });
 
+Route::group(['prefix' => 'locations'], function () {
+    Route::get('/{shift}',  [App\Http\Controllers\LocationController::class, 'index']);
+});
+
+
 Route::group(['prefix' => 'admins'], function () {
-    Route::get('/deliveries',  [App\Http\Controllers\DeliveryController::class, 'indexAdmin']);
+    Route::get('/active-shifts',  [App\Http\Controllers\ShiftController::class, 'indexAdmin']);
+    Route::get('/past-shifts',  [App\Http\Controllers\ShiftController::class, 'indexAdminPast']);
 });
 
 Route::group(['prefix' => 'admin'], function () {

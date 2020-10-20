@@ -6,7 +6,7 @@
     <div class="row justify-content-center">
         <div class="col-md-8">
             <div class="card">
-                <div class="card-header">{{ __('Pending Deliveries') }}</div>
+                <div class="card-header">{{ __('Pending Deliveries') }} <small id="status"></small></div>
                 @if(session()->has('success'))
                 <div class="alert alert-success">
                     {{ session()->get('success') }}
@@ -66,4 +66,59 @@
     @endif
 
 </div>
+@endsection
+
+@section('page-script')
+
+<script>
+    let shiftId = {{$shift}}
+    setInterval(function(){ getCurrentLocation(shiftId); }, 1000);
+
+    function getCurrentLocation(shiftId) {
+
+        const status = document.querySelector('#status');
+       
+
+    
+        function success(position) {
+            const latitude  = position.coords.latitude;
+            const longitude = position.coords.longitude;
+
+            status.textContent = `Last location update at ${new Date().toLocaleString()}`;
+            
+            $.ajax({
+                type: "POST",
+                url: `/api/location`,
+                data: {
+                    shift_id : shiftId,
+                    latitude: latitude,
+                    longitude : longitude
+
+                },
+                success: function() {
+                    console.log('Ok')
+                },
+                error: function () {
+                    console.log("error")
+                },
+                dataType: "json"
+            });
+            
+        }
+
+        function error() {
+            status.textContent = 'Unable to retrieve your location';
+        }
+
+        if(!navigator.geolocation) {
+            status.textContent = 'Geolocation is not supported by your browser';
+        } else {
+            status.textContent = 'Locating…';
+            navigator.geolocation.getCurrentPosition(success, error);
+        }
+
+    }
+
+</script>
+
 @endsection

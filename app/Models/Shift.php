@@ -25,4 +25,9 @@ class Shift extends Model
     {
         return $this->hasMany('App\Models\Delivey');
     }
+
+    public function locations()
+    {
+        return $this->hasMany('App\Models\Location');
+    }
 }

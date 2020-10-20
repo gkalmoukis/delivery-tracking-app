@@ -20,14 +20,15 @@ class DeliveryController extends Controller
     {
         $allDeliveries = Delivery::where('shift_id', '=', $request->shift)->paginate(15);
         return view('user.deliveries.index', [
-            "deliveries" => $allDeliveries
+            "deliveries" => $allDeliveries,
+            "shift" => $request->shift
         ]);
     }
 
     public function indexAdmin(Request $request)
     {
         $allDeliveries = Delivery::paginate(15);
-        return view('admin.index', [
+        return view('admin.index-active', [
             "deliveries" => $allDeliveries
         ]);
     }
