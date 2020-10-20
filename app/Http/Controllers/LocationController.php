@@ -15,8 +15,11 @@ class LocationController extends Controller
     public function index(Request $request)
     {
         $shiftLocations = Location::where('shift_id', '=', $request->shift)->get();
+        $shiftLocation = Location::where('shift_id', '=', $request->shift)->latest('created_at')->first();
+
         return view('admin.locations.index', [
-            "locations" => $shiftLocations
+            "locations" => $shiftLocations,
+            "last" => $shiftLocation
         ]);
     }
 

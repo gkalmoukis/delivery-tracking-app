@@ -34,11 +34,13 @@
                                 <td>
                                     @if (!$delivery->started_at)
                                     <a href="/deliveries/update-started-at/{{$delivery->id}}"
-                                        class="btn btn-primary pl-1">{{__('Started')}}</a>
+                                        class="btn btn-primary">{{__('Started')}}</a>
                                     @endif
 
+                                    @if ($delivery->started_at)
                                     <a href="/deliveries/update-delivered-at/{{$delivery->id}}"
                                         class="btn btn-primary">{{__('Delivered')}}</a>
+                                    @endif
                                 </td>
                             </tr>
                             @endforeach
@@ -46,8 +48,10 @@
                         </tbody>
                     </table>
 
-
+                    {{ $deliveries->links('vendor.pagination.bootstrap-4') }}
                 </div>
+
+
             </div>
         </div>
     </div>
