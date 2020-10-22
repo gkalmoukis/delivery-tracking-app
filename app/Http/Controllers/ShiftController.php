@@ -125,8 +125,8 @@ class ShiftController extends Controller
             "supermarket_id" => $request->supermarket,
             "start_kilometers" => $request->start_kilometers,
             "end_kilometers" => $request->start_kilometers,
-            "plate" => $request->plate,
-            "started_at" => Carbon::now()
+            "plate" => $request->plate
+
         ]);
 
         //
@@ -141,7 +141,29 @@ class ShiftController extends Controller
      */
     public function show(Request $request, Shift $shift)
     {
+
+
         $shift = Shift::findOrFail($request->id);
+
+        $deliveriesStatus = [];
+
+
+        foreach ($shift->deliveries as $delivery) {
+            $deliveriesStatus = [
+                "" => ""
+            ];
+        }
+
+
+
+        if(auth()->user()->isAdmin()){
+            return view('admin.shifts.show', [
+                "shift" => $shift,
+
+            ]);
+        }
+
+
         return view('user.shifts.show', [
             "shift" => $shift
         ]);

@@ -8,7 +8,7 @@
             <div class="card">
                 <div class="card-header">{{ __('Pending Deliveries') }} <small id="status"></small></div>
                 @if(session()->has('success'))
-                <div class="alert alert-success">
+                <div class="alert alert-success m-1">
                     {{ session()->get('success') }}
                 </div>
                 @endif
@@ -81,15 +81,15 @@
     function getCurrentLocation(shiftId) {
 
         const status = document.querySelector('#status');
-       
 
-    
+
+
         function success(position) {
             const latitude  = position.coords.latitude;
             const longitude = position.coords.longitude;
 
             status.textContent = `Last location update at ${new Date().toLocaleString()}`;
-            
+
             $.ajax({
                 type: "POST",
                 url: `/api/location`,
@@ -107,7 +107,7 @@
                 },
                 dataType: "json"
             });
-            
+
         }
 
         function error() {

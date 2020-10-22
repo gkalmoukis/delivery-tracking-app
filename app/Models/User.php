@@ -41,6 +41,10 @@ class User extends \TCG\Voyager\Models\User
         'email_verified_at' => 'datetime',
     ];
 
+    public function isAdmin() {
+        return $this->role->name == 'admin';
+    }
+
 
     public function shifts()
     {

@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Location;
+use App\Models\Shift;
 use Illuminate\Http\Request;
 
 class LocationController extends Controller
@@ -16,8 +17,11 @@ class LocationController extends Controller
     {
         $shiftLocations = Location::where('shift_id', '=', $request->shift)->get();
         $shiftLocation = Location::where('shift_id', '=', $request->shift)->latest('created_at')->first();
+        $shift = Shift::where('id', '=', $request->shift)->first();
+
 
         return view('admin.locations.index', [
+            "shift" => $shift,
             "locations" => $shiftLocations,
             "last" => $shiftLocation
         ]);

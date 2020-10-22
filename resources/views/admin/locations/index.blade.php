@@ -21,6 +21,11 @@
 
                     <div class="card-body">
 
+
+
+
+
+
                         <div id="map" style="width: 100%; height:500px"></div>
 
                     </div>
@@ -39,9 +44,9 @@
 
             let lat =  {{ $last->latitude }};
             let lng = {{ $last->longitude}};
-    
-            const myLatLng = { 
-                lat: lat, 
+
+            const myLatLng = {
+                lat: lat,
                 lng: lng
             };
             const map = new google.maps.Map(document.getElementById("map"), {
@@ -54,6 +59,6 @@
             title: "Hello World!",
             });
         }
-       
+
     </script>
     @endsection

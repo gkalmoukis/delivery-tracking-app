@@ -16,6 +16,7 @@ use Illuminate\Support\Facades\Route;
 
 Route::group(['prefix' => 'shifts'], function () {
     Route::get('/',  [App\Http\Controllers\ShiftController::class, 'index'])->name('shifts-index');
+
     Route::get('/past',  [App\Http\Controllers\ShiftController::class, 'indexPast'])->name('past-index');
     Route::get('/new',  [App\Http\Controllers\ShiftController::class, 'create'])->name('new-shift-form');
     Route::post('/new-swift',  [App\Http\Controllers\ShiftController::class, 'store'])->name('new-shift');
